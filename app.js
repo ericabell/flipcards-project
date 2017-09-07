@@ -4,9 +4,19 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+
 
 var index = require('./routes/index');
 var users = require('./routes/users');
+
+let url='mongodb://localhost:27017/flipcards-project';
+mongoose.connect(url,
+                 {useMongoClient: true},
+                 (err)=> {
+                   if(err) throw err;
+                   else {console.log('connection to db successful');}
+                 });
 
 var app = express();
 
