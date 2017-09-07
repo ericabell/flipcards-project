@@ -5,6 +5,15 @@
 
   <h1>Welcome!</h1>
 
+  <% if( locals.user ) { %>
+    <p>Study a deck</p>
+    <p>Create a deck</p>
+    <p>Edit a deck</p>
+  <% } else { %>
+    <p><a href="/auth/login">Login</a></p>
+    <p><a href="/auth/register">Register</a></p>
+    <% } %>
+
 </div>
 
 <% include ./partials/footer %>
