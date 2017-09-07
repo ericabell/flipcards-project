@@ -3,11 +3,20 @@ var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const session = require('express-session');
+const mongoDBStore = require('connect-mongodb-session')(session);
 var bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
-
+// ROUTES
 var index = require('./routes/index');
+let auth = require('./routes/auth');
+
+// MODELS
+let User = require('./models/users.js');
+
 
 let url='mongodb://localhost:27017/flipcards-project';
 mongoose.connect(url,
@@ -31,7 +40,68 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+passport.use(new LocalStrategy(function(username, password, done) {
+    console.log(`in passport LocalStrategy`);
+    User.findOne({username: username,
+    }, function(err, user) {
+      if(err) {
+        return done(err);
+      }
+
+      if(!user) {
+        return done(null, false, {message: 'incorrect username'});
+      }
+
+      if( !user.authenticate(password) ) {
+        return done( null, false, {message: 'incorrect password'} );
+      }
+
+      return done(null, user);
+    })
+}));
+
+passport.serializeUser(function(user, done) {
+  console.log('in serializeUser');
+  done(null, user.id);
+});
+passport.deserializeUser(function(id, done) {
+  console.log('in deserializeUser');
+  User.findById(id, function(err, user) {
+    done(err, user);
+  })
+});
+
+// set up the express-session store to use MongoDB
+// this allows us to kill the server and still have session data available
+let store = new mongoDBStore(
+  {
+    // uri: `mongodb://${mLabUsername}:${mLabPassword}@ds123124.mlab.com:23124/code-snippet-manager-project`,
+    uri: `mongodb://localhost/flipcards-project`,
+    collection: 'session-store'
+  }
+);
+
+store.on('error', (e) => {
+  assert.ifError(e);
+  assert.ok(false);
+});
+
+// set up express-session
+app.use(session({
+  secret: 'keyboard cat',
+  cookie: {
+    maxAge: 1000 * 60 * 60 * 24 * 7 //1 week
+  },
+  store: store,
+  resave: true,
+  saveUninitialized: true
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use('/', index);
+app.use('/auth', auth);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
