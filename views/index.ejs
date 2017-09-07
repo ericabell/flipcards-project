@@ -8,6 +8,19 @@
   <% if( locals.user ) { %>
     <p><a href="/auth/logout">Logout</a></p>
     <p>Study a deck</p>
+
+    <% if( locals.decks ) { %>
+      <ul>
+        <% locals.decks.forEach( (deck) => { %>
+          <li> <a href="/flipcard/deck/<%= deck['_id'] %>">
+                <%= deck.description %>
+                </a>
+          </li>
+        <% }) %>
+      </ul>
+    <% } %>
+
+
     <p><a href="/flipcard/create-deck">Create a deck</a></p>
     <p>Edit a deck</p>
   <% } else { %>

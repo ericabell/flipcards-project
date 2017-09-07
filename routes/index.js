@@ -1,11 +1,17 @@
 var express = require('express');
 var router = express.Router();
 
+let Deck = require('../models/decks');
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
   if( req.user) {
-    res.render('index', { title: 'Flipcard',
-                          user: req.user.name });
+    Deck.allDecks()
+      .then( (decks) => {
+        res.render('index', { title: 'Flipcard',
+                              decks: decks,
+                              user: req.user.name });
+      })
   } else {
     res.render('index', { title: 'Flipcard'
                           });

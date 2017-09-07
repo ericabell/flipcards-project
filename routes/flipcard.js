@@ -15,7 +15,7 @@ router.post('/create-deck', (req, res, next) => {
   Deck.create({description: req.body['deck-name']})
     .then( (result) => {
       console.log(`Deck created: ${result}`);
-      res.send('success');
+      res.redirect('/');
     })
 })
 

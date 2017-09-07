@@ -21,6 +21,10 @@ const deckSchema = new mongoose.Schema({
   cards: [cardSchema]
 }, {collection: 'decks'});
 
+deckSchema.statics.allDecks = function() {
+  return this.find({});
+}
+
 const Deck = mongoose.model('Deck', deckSchema);
 
 module.exports = Deck;
