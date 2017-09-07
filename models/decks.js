@@ -23,4 +23,4 @@ const deckSchema = new mongoose.Schema({
 
 const Deck = mongoose.model('Deck', deckSchema);
 
-module.exports = Item;
+module.exports = Deck;
