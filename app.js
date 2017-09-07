@@ -13,6 +13,7 @@ const mongoose = require('mongoose');
 // ROUTES
 var index = require('./routes/index');
 let auth = require('./routes/auth');
+let flipcard = require('./routes/flipcard');
 
 // MODELS
 let User = require('./models/users.js');
@@ -105,6 +106,7 @@ app.use(passport.session());
 
 app.use('/', index);
 app.use('/auth', auth);
+app.use('/flipcard', flipcard);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
