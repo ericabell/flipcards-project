@@ -1,0 +1,26 @@
+<% include ./partials/header %>
+<% include ./partials/head %>
+
+<div class="flipcard-app">
+  <div class="container">
+    <h3>Enter your username/password OR click Create New Account to Register</h3>
+
+    <form id='login-form'  action="/auth/login" method="post">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" class="form-control" name="username" placeholder="Username">
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" name="password" placeholder="">
+      </div>
+
+      <button type="submit" class="btn btn-primary">Login</button>
+
+    </form>
+    <a href="/register"><button class="btn btn-primary"> Create New Account</button></a>
+  </div>
+</div>
+
+<% include ./partials/footer %>
+<% include ./partials/foot %>

@@ -42,8 +42,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 passport.use(new LocalStrategy(function(username, password, done) {
     console.log(`in passport LocalStrategy`);
+    console.log(username);
+    console.log(password);
     User.findOne({username: username,
     }, function(err, user) {
+      console.log(user);
       if(err) {
         return done(err);
       }
