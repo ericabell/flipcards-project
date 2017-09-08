@@ -91,7 +91,6 @@ router.post('/deck/card/update/:id', function(req, res, next) {
     })
 })
 
-
 /* delete a card from a deck */
 router.get('/deck/card/delete/:id', function(req, res, next) {
   let deckId = req.query.deck;
@@ -108,4 +107,17 @@ router.get('/deck/card/delete/:id', function(req, res, next) {
     })
 })
 
+
+/* study a deck */
+router.get('/deck/study/:id', function( req, res, next) {
+  // random pick of card from the deck
+  let deckId = req.params.id;
+
+  Deck.findById(deckId)
+    .then( (deck) => {
+      let numberOfCards = deck.cards.length;
+      let randomCardIndex = Math.floor(Math.random()*(numberOfCards-1))
+      res.send(deck.cards[randomCardIndex]);
+    })
+})
 module.exports = router;
