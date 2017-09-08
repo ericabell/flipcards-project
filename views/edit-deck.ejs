@@ -22,7 +22,10 @@
     <h3>Cards</h3>
     <ul>
       <% deck.cards.forEach( (card) => { %>
-        <li> <%= card %>
+        <li>
+          <%= card %>
+          <a href="/flipcard/deck/card/delete/<%= card['_id'] %>?deck=<%= deck['_id'] %>">Delete Card</a>
+        </li>
       <% }) %>
     </ul>
   <% } %>

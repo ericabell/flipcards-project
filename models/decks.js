@@ -16,6 +16,8 @@ const cardSchema = new mongoose.Schema({
 })
 
 const deckSchema = new mongoose.Schema({
+  owner: String,
+  public: Boolean,
   description: String,
   cards: [cardSchema]
 }, {collection: 'decks'});

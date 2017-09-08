@@ -12,7 +12,9 @@ router.get('/create-deck', function(req, res, next) {
 router.post('/create-deck', (req, res, next) => {
   console.log(req.body);
   // create a new document in the decks collection
-  Deck.create({description: req.body['deck-name']})
+  Deck.create({description: req.body['deck-name'],
+               owner: req.user.username,
+               public: (req.body.access === 'public')})
     .then( (result) => {
       console.log(`Deck created: ${result}`);
       res.redirect('/');
@@ -43,6 +45,21 @@ router.post('/deck/card/add', function(req, res, next) {
       res.redirect(`/flipcard/deck/edit/${deckId}`);
     })
 
+})
+
+router.get('/deck/card/delete/:id', function(req, res, next) {
+  let deckId = req.query.deck;
+  console.log(deckId);
+
+  Deck.findById(deckId)
+    .then( (deck) => {
+      deck.cards.id(req.params.id).remove();
+      deck.save()
+        .then( (result) => {
+          console.log('card deleted!');
+          res.redirect(`/flipcard/deck/edit/${deckId}`)
+        })
+    })
 })
 
 module.exports = router;
