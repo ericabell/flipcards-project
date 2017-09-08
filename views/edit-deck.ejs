@@ -24,10 +24,23 @@
       <% deck.cards.forEach( (card) => { %>
         <li>
           <%= card %>
+          <a href="/flipcard/deck/card/update/<%= card['_id'] %>?deck=<%= deck['_id'] %>">Edit Card</a>
           <a href="/flipcard/deck/card/delete/<%= card['_id'] %>?deck=<%= deck['_id'] %>">Delete Card</a>
         </li>
       <% }) %>
     </ul>
+  <% } %>
+
+  <% if(locals.card) { %>
+    <form class="" action="/flipcard/deck/card/update/<%= card['_id'] %>?deck=<%= deck['_id'] %>" method="post">
+      <label for="front">Front</label>
+      <input type="text" name="front" value="<%= locals.card.front %>">
+      <label for="back">Back</label>
+      <input type="text" name="back" value="<%= locals.card.front %>">
+      <input type="hidden" name="deckId" value="<%= deck['_id'] %>">
+
+      <input type="submit" name="" value="Update Card">
+    </form>
   <% } %>
 
 

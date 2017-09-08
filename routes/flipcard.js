@@ -44,6 +44,7 @@ router.get('/deck/edit/:id', function(req, res, next) {
     })
 })
 
+/* add a new card to a deck */
 router.post('/deck/card/add', function(req, res, next) {
   console.log(req.body);
   // get the deck id from the query String
@@ -61,6 +62,37 @@ router.post('/deck/card/add', function(req, res, next) {
 
 })
 
+/* edit a card from a deck */
+router.get('/deck/card/update/:id', function(req, res, next) {
+  let deckId = req.query.deck;
+  console.log(deckId);
+
+  Deck.findById(deckId)
+    .then( (deck) => {
+      console.log(deck.cards.id(req.params.id));
+      res.render('edit-deck', {title: 'Edit Deck',
+                                 deck: deck,
+                                 card: deck.cards.id(req.params.id)})
+    })
+})
+
+router.post('/deck/card/update/:id', function(req, res, next) {
+  let deckId = req.query.deck;
+  console.log(deckId);
+
+  Deck.findById(deckId)
+    .then( (deck) => {
+      deck.cards.id(req.params.id).front = req.body.front;
+      deck.cards.id(req.params.id).back = req.body.back;
+      deck.save()
+        .then( (results) => {
+          res.redirect(`/flipcard/deck/edit/${deckId}`);
+        })
+    })
+})
+
+
+/* delete a card from a deck */
 router.get('/deck/card/delete/:id', function(req, res, next) {
   let deckId = req.query.deck;
   console.log(deckId);
