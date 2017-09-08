@@ -10,7 +10,6 @@ const historySchema = new mongoose.Schema({
 })
 
 const cardSchema = new mongoose.Schema({
-  name: String,
   front: String,
   back: String,
   history: [historySchema]

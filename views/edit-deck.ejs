@@ -7,6 +7,17 @@
 
   <p><%= deck %></p>
 
+  <h3>Add Card to this deck</h3>
+  <form class="" action="/flipcard/deck/card/add" method="post">
+    <label for="front">Front</label>
+    <input type="text" name="front" value="">
+    <label for="back">Back</label>
+    <input type="text" name="back" value="">
+    <input type="hidden" name="deckId" value="<%= deck['_id'] %>">
+
+    <input type="submit" name="" value="Add Card">
+  </form>
+
   <% if(locals.deck.cards) { %>
     <h3>Cards</h3>
     <ul>
