@@ -21,6 +21,20 @@ router.post('/create-deck', (req, res, next) => {
     })
 });
 
+/* DELETE A DECK */
+
+router.get('/deck/delete/:id', function(req, res, next) {
+  Deck.findOne({'_id': req.params.id})
+    .then( (deck) => {
+      deck.remove();
+      deck.save()
+        .then( (results) => {
+          console.log('Deck removed!');
+          res.redirect('/');
+        })
+    })
+})
+
 /* EDIT A DECK */
 router.get('/deck/edit/:id', function(req, res, next) {
   Deck.findOne({'_id': req.params.id})
