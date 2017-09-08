@@ -3,7 +3,7 @@ var router = express.Router();
 
 let Deck = require('../models/decks');
 
-/* GET home page. */
+/* CREATE A NEW DECK */
 router.get('/create-deck', function(req, res, next) {
   res.render('create-deck', {title: 'Create Deck'});
 
@@ -16,6 +16,15 @@ router.post('/create-deck', (req, res, next) => {
     .then( (result) => {
       console.log(`Deck created: ${result}`);
       res.redirect('/');
+    })
+});
+
+/* EDIT A DECK */
+router.get('/deck/edit/:id', function(req, res, next) {
+  Deck.find({'_id': req.params.id})
+    .then( (deck) => {
+      res.render('edit-deck', {title: 'Edit Deck',
+                               deck: deck});
     })
 })
 

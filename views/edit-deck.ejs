@@ -1,0 +1,23 @@
+<% include ./partials/head %>
+<% include ./partials/header %>
+
+<div class='flipcard-app'>
+
+  <h1>Edit a Deck</h1>
+
+  <p><%= deck %></p>
+
+  <% if(locals.deck.cards) { %>
+    <h3>Cards</h3>
+    <ul>
+      <% deck.cards.forEach( (card) => { %>
+        <li> <%= card %>
+      <% }) %>
+    </ul>
+  <% } %>
+
+
+</div>
+
+<% include ./partials/footer %>
+<% include ./partials/foot %>
