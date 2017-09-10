@@ -54,6 +54,6 @@ Example Response:
 
 6. DELETE `/api/card`
 
-```curl -H "Content-Type: application/json" -X DELETE -d '{"deckId": "59b58c706bc3fe69c5db1126", "cardId": "59b58c786bc3fe69c5db1127"}' -u eabell:e http://localhost:3000/api/card```
+```curl -H "Content-Type: application/json" -X DELETE -d '{"deckId": "59b58c706bc3fe69c5db1126", "cardId": "59b58c786bc3fe69c5db1127"}' -u user:pass http://localhost:3000/api/card```
 
 ```{"_id":"59b58c706bc3fe69c5db1126","description":"Calculus","owner":"eabell","public":true,"__v":1,"cards":[{"back":"the back","front":"the front","_id":"59b590c14f85066c3b4b7e23","history":[]}]}```
