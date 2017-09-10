@@ -110,14 +110,16 @@ router.get('/deck/card/delete/:id', function(req, res, next) {
 
 /* study a deck */
 router.get('/deck/study/:id', function( req, res, next) {
+  // when you hit this route, you get a new randomly-selected
+  // card from the specified deck.
   // random pick of card from the deck
   let deckId = req.params.id;
 
   Deck.findById(deckId)
     .then( (deck) => {
       let numberOfCards = deck.cards.length;
-      let randomCardIndex = Math.floor(Math.random()*(numberOfCards-1))
-      res.send(deck.cards[randomCardIndex]);
+      res.render('study-deck', {title: 'Study Deck',
+                                 card: deck.cards[Math.floor(Math.random()*(numberOfCards-1))]})
     })
 })
 module.exports = router;
