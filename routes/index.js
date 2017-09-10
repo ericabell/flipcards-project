@@ -6,7 +6,7 @@ let Deck = require('../models/decks');
 /* GET home page. */
 router.get('/', function(req, res, next) {
   if( req.user) {
-    Deck.allDecks()
+    Deck.allPublicAndUserDecks(req.user.username)
       .then( (decks) => {
         res.render('index', { title: 'Flipcard',
                               decks: decks,

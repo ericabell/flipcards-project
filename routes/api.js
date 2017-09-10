@@ -39,13 +39,22 @@ router.post('/deck', passport.authenticate('basic', {session: false}), (req, res
                public: (req.body.access === 'public')})
     .then( (result) => {
       console.log(`Deck created: ${result}`);
-      res.json(result);
+      res.json({status: 'success',
+                data: {
+                  deckName: result.description,
+                  owner: result.owner,
+                  public: result.public,
+                  deckId: result['_id']
+                }});
+    })
+    .catch( (err) => {
+      res.status(400).json({status: 'failure', data: err});
     })
 })
 
 /* LIST DECKS */
 router.get('/deck', passport.authenticate('basic', {session: false}), (req, res, next) => {
-  Deck.allDecks({})
+  Deck.allPublicAndUserDecks(req.user.username)
     .then( (decks) => {
       res.json(decks);
     })

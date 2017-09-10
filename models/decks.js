@@ -10,20 +10,47 @@ const historySchema = new mongoose.Schema({
 })
 
 const cardSchema = new mongoose.Schema({
-  front: String,
-  back: String,
+  front: {
+    type: String,
+    required: true,
+  },
+  back: {
+    type: String,
+    required: true,
+  },
   history: [historySchema]
 })
 
 const deckSchema = new mongoose.Schema({
-  owner: String,
-  public: Boolean,
-  description: String,
+  owner: {
+      type: String,
+      required: true,
+  },
+  public: {
+      type: Boolean,
+      required: true,
+  },
+  description: {
+    type: String,
+    required: true,
+  },
   cards: [cardSchema]
 }, {collection: 'decks'});
 
 deckSchema.statics.allDecks = function() {
   return this.find({});
+}
+
+deckSchema.statics.allPublicDecks = function() {
+  return this.find({public: true});
+}
+
+deckSchema.statics.allPrivateUserDecks = function(username) {
+  return this.find({public: false, owner: username});
+}
+
+deckSchema.statics.allPublicAndUserDecks = function(username) {
+  return this.find().or([{public: true}, {owner: username}]);
 }
 
 const Deck = mongoose.model('Deck', deckSchema);
