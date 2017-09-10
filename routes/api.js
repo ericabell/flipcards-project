@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 const passport = require('passport');
+const { check, validationResult } = require('express-validator/check');
+const { matchedData } = require('express-validator/filter');
 
 
 let Deck = require('../models/decks');
@@ -12,7 +14,7 @@ let User = require('../models/users.js');
 
 /* REGISTER A USER */
 router.post('/user', (req, res, next) => {
-  User.create({username: req.body.username,
+    User.create({username: req.body.username,
                password: req.body.password,
                name: req.body.name
              })
