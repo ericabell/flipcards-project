@@ -12,6 +12,7 @@ let User = require('../models/users.js');
 
 /* REGISTER A USER */
 router.post('/user', (req, res, next) => {
+  console.log(req.body);
   User.create({username: req.body.username,
                password: req.body.password,
                name: req.body.name
@@ -26,6 +27,7 @@ router.post('/user', (req, res, next) => {
 
 /* CREATE A NEW DECK */
 router.post('/deck', passport.authenticate('basic', {session: false}), (req, res, next) => {
+  console.log(req.body);
   Deck.create({description: req.body['deck-name'],
                owner: req.user.username,
                public: (req.body.access === 'public')})
@@ -35,11 +37,27 @@ router.post('/deck', passport.authenticate('basic', {session: false}), (req, res
     })
 })
 
+/* LIST DECKS */
+router.get('/deck', passport.authenticate('basic', {session: false}), (req, res, next) => {
+  Deck.allDecks({})
+    .then( (decks) => {
+      res.json(decks);
+    })
+})
+
+
+router.post('/eric', passport.authenticate('basic', {session: false}), (req, res, next) => {
+  console.log(req.user);
+  console.log(req.body);
+  res.json({status: 'success'});
+})
+
 /* ADD CARD TO DECK */
 router.post('/card', passport.authenticate('basic', {session: false}), (req, res, next) => {
+  console.log(req.body);
   Deck.findByIdAndUpdate(req.body.deckId,
     {$push: {'cards': {front: req.body.front, back: req.body.back}}},
-    {safe: true, upsert: true})
+    {safe: true, upsert: false})
     .then( (result) => {
       res.json(result);
     })
@@ -47,12 +65,27 @@ router.post('/card', passport.authenticate('basic', {session: false}), (req, res
 
 /* EDIT EXISTING CARD */
 router.put('/card', passport.authenticate('basic', {session: false}), (req, res, next) => {
-
+  Deck.findById(req.body.deckId)
+    .then( (deck) => {
+      deck.cards.id(req.body.cardId).front = req.body.front;
+      deck.cards.id(req.body.cardId).back = req.body.back;
+      deck.save()
+        .then( (results) => {
+          res.json(results);
+        })
+    })
 })
 
 /* DELETE A CARD FROM A DECK */
 router.delete('/card', passport.authenticate('basic', {session: false}), (req, res, next) => {
-
+  Deck.findById(req.body.deckId)
+    .then( (deck) => {
+      deck.cards.id(req.body.cardId).remove();
+      deck.save()
+        .then( (result) => {
+          res.json(result);
+        })
+    })
 })
 
 
