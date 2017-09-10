@@ -1,0 +1,21 @@
+
+
+
+
+// POST A NEW USER - NO AUTH REQUIRED
+curl -H "Content-Type: application/json" -X POST -d '{"username":"dummy", "password":"dummy", "name": "Hello World"}' http://localhost:3000/api/user
+
+// CREATE A NEW DECK
+curl -H "Content-Type: application/json" -X POST -d '{"deck-name":"New desk", "acccess": "public"}' -u eabell:e http://localhost:3000/api/deck
+
+// GET LIST OF DECKS
+curl -v -u eabell:e http://localhost:3000/api/deck
+
+// ADD CARD TO DECK
+curl -H "Content-Type: application/json" -X POST -d '{"deckId": "59b58c706bc3fe69c5db1126", "front": "the front", "back": "the back"}' -u eabell:e http://localhost:3000/api/card
+
+// EDIT EXISTING CARD
+curl -H "Content-Type: application/json" -X PUT -d '{"deckId": "59b58c706bc3fe69c5db1126", "cardId": "59b58c786bc3fe69c5db1127", "front": "the NEW front", "back": "the NEW back"}' -u eabell:e http://localhost:3000/api/card
+
+// DELETE A CARD
+curl -H "Content-Type: application/json" -X DELETE -d '{"deckId": "59b58c706bc3fe69c5db1126", "cardId": "59b58c786bc3fe69c5db1127"}' -u eabell:e http://localhost:3000/api/card
