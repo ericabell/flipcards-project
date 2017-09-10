@@ -24,7 +24,7 @@
             <div class="card-block">
               <p> <strong>FRONT:</strong> <%= card.front %></p>
               <p> <strong>BACK:</strong> <%= card.back %> </p>
-              <a href="/flipcard/deck/card/update/<%= card['_id'] %>?deck=<%= deck['_id'] %>"><button class="btn btn-default">Edit Card</button></a>
+              <a href="/flipcard/deck/card/update/<%= card['_id'] %>?deck=<%= deck['_id'] %>#edit-card"><button class="btn btn-default">Edit Card</button></a>
               <a href="/flipcard/deck/card/delete/<%= card['_id'] %>?deck=<%= deck['_id'] %>"><button class="btn btn-warning">Delete Card</button></a>
             </div>
           </div>
@@ -36,15 +36,19 @@
   <% } %>
 
   <% if(locals.card) { %>
-    <form class="" action="/flipcard/deck/card/update/<%= card['_id'] %>?deck=<%= deck['_id'] %>" method="post">
-      <label for="front">Front</label>
-      <input type="text" name="front" value="<%= locals.card.front %>">
-      <label for="back">Back</label>
-      <input type="text" name="back" value="<%= locals.card.back %>">
-      <input type="hidden" name="deckId" value="<%= deck['_id'] %>">
+    <div class="choice">
+      <h3>Update Card Info:</h3>
+      <form id="edit-card" class="" action="/flipcard/deck/card/update/<%= card['_id'] %>?deck=<%= deck['_id'] %>" method="post">
+        <label for="front">Front</label>
+        <input type="text" name="front" value="<%= locals.card.front %>">
+        <label for="back">Back</label>
+        <input type="text" name="back" value="<%= locals.card.back %>">
+        <input type="hidden" name="deckId" value="<%= deck['_id'] %>">
 
-      <button type="submit" class="btn btn-primary">Update Card</button>
-    </form>
+        <button type="submit" class="btn btn-primary">Update Card</button>
+        <a href="/flipcard/deck/edit/<%= deck['_id'] %>"><button class="btn btn-danger">Cancel</button></a>
+      </form>
+    </div>
   <% } %>
 
 
