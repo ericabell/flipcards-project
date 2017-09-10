@@ -136,7 +136,7 @@ router.get('/card/rating', function(req, res, next) {
 
   Deck.findById(deckId)
     .then( (deck) => {
-      deck.cards.id(cardId).history.push({date: Date(), user: req.user.username, outcome: rating});
+      deck.cards.id(cardId).history.unshift({date: Date(), user: req.user.username, outcome: rating});
       deck.save()
         .then( (results) => {
           console.log('card history updated!');

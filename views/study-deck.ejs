@@ -24,7 +24,33 @@
           <a href="/flipcard/card/rating?deckId=<%= deckId %>&cardId=<%= card['_id']%>&rating=difficult">
             <button class="btn btn-default" type="button" name="button">Difficult</button>
           </a>
+          <a href="/flipcard/deck/study/<%= deckId %>">
+            <button class="btn btn-default" type="button" name="button">Skip</button>
+          </a>
         </div>
+
+        <% if( locals.card.history ) { %>
+          <div class="history">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>User</th>
+                  <th>Rating</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody>
+              <% for(let i=0; i<=4; i++) { %>
+                <tr>
+                  <td><%= card.history[i].user %></td>
+                  <td><%= card.history[i].outcome %></td>
+                  <td><%= card.history[i].date %></td>
+                </tr>
+              <% } %>
+              </tbody>
+            </table>
+          </div>
+        <% }%>
 
     </div>
 
