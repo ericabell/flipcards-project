@@ -3,6 +3,29 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
+.header {
+  text-align: center;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  margin-bottom: 30px;
+}
+
+.choice {
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 10px;
+  margin: 10px;
+  padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.card {
+  margin: 5px;
+  width: 200px;
+  padding: 15px;
+}
+
 a {
   color: #00B7FF;
 }
@@ -38,4 +61,12 @@ a {
 .front p, .back p {
   margin-top: 25%;
   font-size: 3em;
+}
+
+.front {
+  background-color: rgb(166, 162, 165);
+}
+
+.back {
+  background-color: rgb(16, 188, 214);
 }

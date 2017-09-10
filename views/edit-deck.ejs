@@ -3,8 +3,6 @@
 
 <div class='flipcard-app'>
 
-  <h1>Edit a Deck</h1>
-
   <h3>Add Card to this deck</h3>
   <form class="" action="/flipcard/deck/card/add" method="post">
     <label for="front">Front</label>
@@ -13,7 +11,7 @@
     <input type="text" name="back" value="">
     <input type="hidden" name="deckId" value="<%= deck['_id'] %>">
 
-    <input type="submit" name="" value="Add Card">
+    <button type="submit" class="btn btn-primary">Add Card</button>
   </form>
 
   <% if(locals.deck.cards) { %>
@@ -21,9 +19,9 @@
     <ul>
       <% deck.cards.forEach( (card) => { %>
         <li>
-          <%= card %>
-          <a href="/flipcard/deck/card/update/<%= card['_id'] %>?deck=<%= deck['_id'] %>">Edit Card</a>
-          <a href="/flipcard/deck/card/delete/<%= card['_id'] %>?deck=<%= deck['_id'] %>">Delete Card</a>
+          <p> <%= card.front %>, <%= card.back %> </p>
+          <a href="/flipcard/deck/card/update/<%= card['_id'] %>?deck=<%= deck['_id'] %>"><button class="btn btn-default">Edit Card</button></a>
+          <a href="/flipcard/deck/card/delete/<%= card['_id'] %>?deck=<%= deck['_id'] %>"><button class="btn btn-warning">Delete Card</button></a>
         </li>
       <% }) %>
     </ul>
@@ -34,7 +32,7 @@
       <label for="front">Front</label>
       <input type="text" name="front" value="<%= locals.card.front %>">
       <label for="back">Back</label>
-      <input type="text" name="back" value="<%= locals.card.front %>">
+      <input type="text" name="back" value="<%= locals.card.back %>">
       <input type="hidden" name="deckId" value="<%= deck['_id'] %>">
 
       <input type="submit" name="" value="Update Card">

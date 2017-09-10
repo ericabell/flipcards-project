@@ -3,8 +3,6 @@
 
     <div class='flipcard-app'>
 
-      <h1>Study a Deck</h1>
-
         <div class="stage">
           <div class="flashcard">
             <div class="front">
@@ -29,7 +27,7 @@
           </a>
         </div>
 
-        <% if( locals.card.history ) { %>
+        <% if( locals.card.history.length > 0 ) { %>
           <div class="history">
             <table class="table">
               <thead>
@@ -40,13 +38,13 @@
                 </tr>
               </thead>
               <tbody>
-              <% for(let i=0; i<=4; i++) { %>
+              <% card.history.forEach( (rating) => { %>
                 <tr>
-                  <td><%= card.history[i].user %></td>
-                  <td><%= card.history[i].outcome %></td>
-                  <td><%= card.history[i].date %></td>
+                  <td><%= rating.user %></td>
+                  <td><%= rating.outcome %></td>
+                  <td><%= rating.date %></td>
                 </tr>
-              <% } %>
+              <% }) %>
               </tbody>
             </table>
           </div>
