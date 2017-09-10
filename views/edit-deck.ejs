@@ -16,15 +16,23 @@
 
   <% if(locals.deck.cards) { %>
     <h3>Cards</h3>
-    <ul>
-      <% deck.cards.forEach( (card) => { %>
-        <li>
-          <p> <%= card.front %>, <%= card.back %> </p>
-          <a href="/flipcard/deck/card/update/<%= card['_id'] %>?deck=<%= deck['_id'] %>"><button class="btn btn-default">Edit Card</button></a>
-          <a href="/flipcard/deck/card/delete/<%= card['_id'] %>?deck=<%= deck['_id'] %>"><button class="btn btn-warning">Delete Card</button></a>
-        </li>
-      <% }) %>
-    </ul>
+
+    <div class="choice">
+
+        <% locals.deck.cards.forEach( (card) => { %>
+          <div class="card">
+            <div class="card-block">
+              <p> <strong>FRONT:</strong> <%= card.front %></p>
+              <p> <strong>BACK:</strong> <%= card.back %> </p>
+              <a href="/flipcard/deck/card/update/<%= card['_id'] %>?deck=<%= deck['_id'] %>"><button class="btn btn-default">Edit Card</button></a>
+              <a href="/flipcard/deck/card/delete/<%= card['_id'] %>?deck=<%= deck['_id'] %>"><button class="btn btn-warning">Delete Card</button></a>
+            </div>
+          </div>
+
+        <% }) %>
+
+    </div>
+
   <% } %>
 
   <% if(locals.card) { %>
