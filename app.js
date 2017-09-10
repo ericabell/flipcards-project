@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
+const BasicStrategy = require('passport-http').BasicStrategy;
 const session = require('express-session');
 const mongoDBStore = require('connect-mongodb-session')(session);
 var bodyParser = require('body-parser');
@@ -14,6 +15,7 @@ const mongoose = require('mongoose');
 var index = require('./routes/index');
 let auth = require('./routes/auth');
 let flipcard = require('./routes/flipcard');
+let api = require('./routes/api');
 
 // MODELS
 let User = require('./models/users.js');
@@ -41,13 +43,32 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-passport.use(new LocalStrategy(function(username, password, done) {
-    console.log(`in passport LocalStrategy`);
-    console.log(username);
-    console.log(password);
+passport.use(new BasicStrategy(
+  function(username, password, done) {
+    console.log(`in passport BasicStrategy`);
     User.findOne({username: username,
     }, function(err, user) {
-      console.log(user);
+      if(err) {
+        return done(err);
+      }
+
+      if(!user) {
+        return done(null, false, {message: 'incorrect username'});
+      }
+
+      if( !user.authenticate(password) ) {
+        return done( null, false, {message: 'incorrect password'} );
+      }
+
+      return done(null, user);
+    })
+  }
+));
+
+passport.use(new LocalStrategy(function(username, password, done) {
+    console.log(`in passport LocalStrategy`);
+    User.findOne({username: username,
+    }, function(err, user) {
       if(err) {
         return done(err);
       }
@@ -107,6 +128,7 @@ app.use(passport.session());
 app.use('/', index);
 app.use('/auth', auth);
 app.use('/flipcard', flipcard);
+app.use('/api', api);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
