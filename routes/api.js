@@ -45,13 +45,6 @@ router.get('/deck', passport.authenticate('basic', {session: false}), (req, res,
     })
 })
 
-
-router.post('/eric', passport.authenticate('basic', {session: false}), (req, res, next) => {
-  console.log(req.user);
-  console.log(req.body);
-  res.json({status: 'success'});
-})
-
 /* ADD CARD TO DECK */
 router.post('/card', passport.authenticate('basic', {session: false}), (req, res, next) => {
   console.log(req.body);
