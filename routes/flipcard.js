@@ -119,7 +119,29 @@ router.get('/deck/study/:id', function( req, res, next) {
     .then( (deck) => {
       let numberOfCards = deck.cards.length;
       res.render('study-deck', {title: 'Study Deck',
+                                 deckId: deckId,
                                  card: deck.cards[Math.floor(Math.random()*(numberOfCards-1))]})
+    })
+})
+
+/* Rate the outcome */
+router.get('/card/rating', function(req, res, next) {
+  console.log('Hit rating');
+  // deckId, cardId, and rating are in the query String
+  let deckId = req.query.deckId;
+  let cardId = req.query.cardId;
+  let rating = req.query.rating;
+
+  console.log(req.query);
+
+  Deck.findById(deckId)
+    .then( (deck) => {
+      deck.cards.id(cardId).history.push({date: Date(), user: req.user.username, outcome: rating});
+      deck.save()
+        .then( (results) => {
+          console.log('card history updated!');
+          res.redirect(`/flipcard/deck/study/${deckId}`);
+        })
     })
 })
 module.exports = router;
