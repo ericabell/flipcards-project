@@ -37,7 +37,12 @@ router.post('/deck', passport.authenticate('basic', {session: false}), (req, res
 
 /* ADD CARD TO DECK */
 router.post('/card', passport.authenticate('basic', {session: false}), (req, res, next) => {
-
+  Deck.findByIdAndUpdate(req.body.deckId,
+    {$push: {'cards': {front: req.body.front, back: req.body.back}}},
+    {safe: true, upsert: true})
+    .then( (result) => {
+      res.json(result);
+    })
 })
 
 /* EDIT EXISTING CARD */
