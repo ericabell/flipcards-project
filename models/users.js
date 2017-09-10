@@ -11,7 +11,10 @@ const userSchema = new mongoose.Schema({
     unique: true,
   },
   passwordHash: String,
-  name: String
+  name: {
+    type: String,
+    required: true,
+  },
 });
 
 userSchema.virtual('password')

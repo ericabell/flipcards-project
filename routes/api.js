@@ -12,18 +12,24 @@ let User = require('../models/users.js');
 
 /* REGISTER A USER */
 router.post('/user', (req, res, next) => {
-  console.log(req.body);
   User.create({username: req.body.username,
                password: req.body.password,
                name: req.body.name
-             },
-    function(err, doc) {
-      if( err ) throw err;
+             })
+    .then( (doc) => {
       console.log(doc);
       console.log('user created successfully!');
-      res.json(doc);
-    });
+      res.json({status: 'success',
+                data: {
+                  username: doc.username,
+                  name: doc.name
+                }});
+    })
+    .catch( (err) => {
+      res.status(400).json({status: 'failure', data: err});
+    })
 });
+
 
 /* CREATE A NEW DECK */
 router.post('/deck', passport.authenticate('basic', {session: false}), (req, res, next) => {
