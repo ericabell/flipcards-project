@@ -58,7 +58,11 @@ router.post('/deck', passport.authenticate('basic', {session: false}), (req, res
 router.get('/deck', passport.authenticate('basic', {session: false}), (req, res, next) => {
   Deck.allPublicAndUserDecks(req.user.username)
     .then( (decks) => {
-      res.json(decks);
+      res.json({status: 'success',
+                data: decks});
+    })
+    .catch( (err) => {
+      res.status(400).json({status: 'failure', data: err});
     })
 })
 
@@ -68,8 +72,14 @@ router.post('/card', passport.authenticate('basic', {session: false}), (req, res
   Deck.findByIdAndUpdate(req.body.deckId,
     {$push: {'cards': {front: req.body.front, back: req.body.back}}},
     {safe: true, upsert: false})
-    .then( (result) => {
-      res.json(result);
+    .then( (results) => {
+      // result is going to be the entire deck, with the new card
+      // perhaps I should return just the new card?
+      res.json({status: 'success',
+                data: results});
+    })
+    .catch( (err) => {
+      res.status(400).json({status: 'failure', data: err});
     })
 })
 
@@ -81,8 +91,16 @@ router.put('/card', passport.authenticate('basic', {session: false}), (req, res,
       deck.cards.id(req.body.cardId).back = req.body.back;
       deck.save()
         .then( (results) => {
-          res.json(results);
+          res.json({status: 'success',
+                    data: results});
         })
+        .catch( (err) => {
+          res.json({status: 'failure',
+                    data: err})
+        })
+    })
+    .catch( (err) => {
+      res.status(400).json({status: 'failure', data: err});
     })
 })
 
@@ -93,8 +111,15 @@ router.delete('/card', passport.authenticate('basic', {session: false}), (req, r
       deck.cards.id(req.body.cardId).remove();
       deck.save()
         .then( (result) => {
-          res.json(result);
+          res.json({status: 'success',
+                    data: result});
         })
+        .catch( (err) => {
+          res.status(400).json({status: 'failure', data: err});
+        })
+    })
+    .catch( (err) => {
+      res.status(400).json({status: 'failure', data: err});
     })
 })
 
